@@ -9,4 +9,4 @@ data:
   InfluxOptions__Bucket: "default"
   InfluxOptions__Org: "influxdata"
   InfluxOptions__Measurement: "sensor_readings"
-  JobOptions__LookbackInSeconds: "30"
+  JobOptions__LookbackInSeconds: "10"

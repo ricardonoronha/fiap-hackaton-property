@@ -42,10 +42,10 @@ namespace AgroSolutions.AlertsProcessor.Workers
                     return;
                 }
 
-                var lookbackMinutes = Math.Max(1, _job.LookbackInSeconds);
+                var lookbackInSeconds = Math.Max(1, _job.LookbackInSeconds);
 
-                _logger.LogInformation("Starting job. FieldIds={Count}, Lookback={Lookback}m",
-                    fieldIds.Count, lookbackMinutes);
+                _logger.LogInformation("Starting job. FieldIds={Count}, Lookback={Lookback}s",
+                    fieldIds.Count, lookbackInSeconds);
 
                 var readings = await _readingsRepo.FetchReadingsAsync(fieldIds, _job.LookbackInSeconds, ct);
 
