@@ -17,4 +17,6 @@ public class Field
 
     public Property Property { get; set; } = null!;
     public Culture Culture { get; set; } = null!;
+
+    public virtual ICollection<Alert> Alerts { get; set; } = new List<Alert>();
 }

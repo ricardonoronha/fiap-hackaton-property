@@ -54,6 +54,12 @@ spec:
                   name: properties-secret
                   key: JWT_KEY
 
+            - name: InfluxOptions__Token
+              valueFrom:
+                secretKeyRef:
+                  name: properties-secret
+                  key: INFLUX_TOKEN
+
           # HPA precisa de requests (principalmente CPU). Ajuste para sua realidade.
           resources:
             requests:

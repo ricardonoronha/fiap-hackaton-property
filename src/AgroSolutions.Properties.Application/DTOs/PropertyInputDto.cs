@@ -12,4 +12,6 @@ public record PropertyInputDto
 
     [MaxLength(500)]
     public string? Location { get; init; }
+
+    public string? FarmerId { get; init; }
 }

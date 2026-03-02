@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AgroSolutions.AlertsProcessor": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

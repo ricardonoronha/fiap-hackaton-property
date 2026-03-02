@@ -4,4 +4,9 @@ metadata:
   name: properties-config
   namespace: agrosolutions-properties
 data:
-  ASPNETCORE_ENVIRONMENT: "Production"  
+  ASPNETCORE_ENVIRONMENT: "Production"
+  InfluxOptions__Url: "http://influxdb-influxdb2.observability:80"
+  InfluxOptions__Bucket: "default"
+  InfluxOptions__Org: "influxdata"
+  InfluxOptions__Measurement: "sensor_readings"
+  JobOptions__LookbackInSeconds: 30

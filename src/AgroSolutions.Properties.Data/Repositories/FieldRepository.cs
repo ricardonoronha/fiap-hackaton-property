@@ -36,7 +36,9 @@ namespace AgroSolutions.Properties.Data.Repositories
             => ctx.Fields.ToListAsync();
 
         public Task<Field?> GetByIdAsync(Guid id)
-            => ctx.Fields.FirstOrDefaultAsync(x => x.Id == id);
+            => ctx.Fields
+            .Include(x => x.Culture)
+            .Include(x => x.Alerts).FirstOrDefaultAsync(x => x.Id == id);
 
         public async Task UpdateAsync(Guid id, Field entity)
         {

@@ -1,0 +1,1 @@
+﻿public sealed record SensorReadingDto(string FieldId, string SensorType, int Value, DateTime Date);

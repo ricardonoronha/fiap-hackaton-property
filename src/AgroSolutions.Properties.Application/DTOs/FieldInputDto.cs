@@ -14,5 +14,6 @@ public record FieldInputDto
     public string Name { get; init; } = string.Empty;
 
     [Required(ErrorMessage = "Culture is required")]
+    [MaxLength(100)]
     public Guid CultureId { get; init; }
 }

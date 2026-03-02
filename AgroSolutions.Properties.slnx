@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Github Actions/">
+    <File Path=".github/workflows/deploy-local.yml" />
+  </Folder>
   <Folder Name="/k8s/">
     <File Path="k8s/configmap.yml" />
     <File Path="k8s/namespace.yml" />

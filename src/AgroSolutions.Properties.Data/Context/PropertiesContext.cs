@@ -12,6 +12,8 @@ public class PropertiesContext : DbContext
     public DbSet<Field> Fields { get; set; }
     public DbSet<Culture> Cultures { get; set; }
 
+    public DbSet<Alert> Alerts { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

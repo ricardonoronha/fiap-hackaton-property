@@ -22,7 +22,8 @@ namespace AgroSolutions.Properties.Application.Services
             {
                 Name = property.Name,
                 Location = property.Location,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                FarmerId = property.FarmerId!
             };
 
             await _propertyRepository.AddAsync(propertyEntity);
@@ -39,7 +40,8 @@ namespace AgroSolutions.Properties.Application.Services
                 Id = p.Id,
                 Name = p.Name,
                 Location = p.Location,
-                CreatedAt = p.CreatedAt
+                CreatedAt = p.CreatedAt,
+                FarmerId = p.FarmerId
             });
 
         }
@@ -55,7 +57,8 @@ namespace AgroSolutions.Properties.Application.Services
                 Id = property.Id,
                 Name = property.Name,
                 Location = property.Location,
-                CreatedAt = property.CreatedAt
+                CreatedAt = property.CreatedAt,
+                FarmerId = property.FarmerId
             };
         }
 
@@ -83,7 +86,9 @@ namespace AgroSolutions.Properties.Application.Services
                 Id = existingProperty.Id,
                 Name = existingProperty.Name,
                 Location = existingProperty.Location,
-                CreatedAt = existingProperty.CreatedAt
+                CreatedAt = existingProperty.CreatedAt,
+                FarmerId = existingProperty.FarmerId
+
             };
         }
     }

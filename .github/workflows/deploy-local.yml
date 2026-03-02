@@ -46,6 +46,7 @@ jobs:
           JwtAudience: ${{ secrets.JWT_AUDIENCE }}
           JwtKey: ${{ secrets.JWT_KEY }}
           PropertiesConnectionString: ${{ secrets.PROPERTIES_CONNECTION_STRING }}
+          InfluxToken: ${{ secrets.INFLUX_TOKEN }}
 
       - name: Validate kubectl access (uses runner kubeconfig)
         shell: bash

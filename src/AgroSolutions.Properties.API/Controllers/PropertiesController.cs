@@ -39,7 +39,16 @@ public class PropertiesController : ControllerBase
     {
         if (property is null)
             return BadRequest("Property input cannot be null.");
-        await _svc.AddAsync(property);
+
+
+        var prop = new PropertyInputDto()
+        {
+            FarmerId = User.GetUserEmail(),
+            Location = property.Location,
+            Name = property.Name
+        };
+
+        await _svc.AddAsync(prop);
         return Created();
     }
     [HttpDelete]

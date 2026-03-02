@@ -1,3 +1,4 @@
+using AgroSolutions.AlertsProcessor.Workers;
 using AgroSolutions.Properties.API.Middleware;
 using AgroSolutions.Properties.Application.Interfaces;
 using AgroSolutions.Properties.Application.Services;
@@ -8,11 +9,16 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Options
+builder.Services.Configure<InfluxOptions>(builder.Configuration.GetSection(nameof(InfluxOptions)));
+builder.Services.Configure<JobOptions>(builder.Configuration.GetSection(nameof(JobOptions)));
+
 // ===== SERVICES =====
 
 builder.Services.AddControllers();
 
 // Swagger
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -66,6 +72,15 @@ builder
     .Services.AddScoped<ICultureService, CultureService>();
 builder
     .Services.AddScoped<IFieldService, FieldService>();
+builder
+    .Services.AddScoped<IGenerateAlertService, GenerateAlertService>();
+
+
+// Infra + App
+builder.Services.AddScoped<IReadingsRepository, InfluxReadingsRepository>();
+builder.Services.AddScoped<IFieldRepository, FieldRepository>();
+
+
 
 
 // JWT Authentication
@@ -84,8 +99,9 @@ builder.Services.AddCors(options =>
 
 // Health Checks
 builder.Services.AddHealthChecks();
-
+builder.Services.AddHostedService<AlertsWorker>();
 var app = builder.Build();
+
 
 // ===== APLICAR MIGRATIONS E SEED =====
 using (var scope = app.Services.CreateScope())
