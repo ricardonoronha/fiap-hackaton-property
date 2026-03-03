@@ -22,6 +22,8 @@ namespace AgroSolutions.Properties.Data.Repositories
                 throw new ArgumentNullException("Alert must be provided.");
 
             _ctx.Alerts.Add(alert);
+            await _ctx.SaveChangesAsync();
+
         }
 
         public async Task<List<Alert>> GetByFieldIdAsync(Guid fieldId)

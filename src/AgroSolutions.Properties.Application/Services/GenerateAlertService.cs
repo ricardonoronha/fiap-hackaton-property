@@ -8,9 +8,11 @@ namespace AgroSolutions.Properties.Application.Services
     {
 
         private readonly IFieldRepository _fieldRepo;
-        public GenerateAlertService(IFieldRepository fieldRepository)
+        private readonly IAlertRepository _alertRepo;
+        public GenerateAlertService(IFieldRepository fieldRepository, IAlertRepository alertRepo)
         {
             _fieldRepo = fieldRepository;
+            _alertRepo = alertRepo;
         }
 
         public async Task UpdateAlertsByReadings(List<SensorReadingDto> readings)
@@ -19,7 +21,7 @@ namespace AgroSolutions.Properties.Application.Services
                 return;
 
             var fields = await _fieldRepo.GetAllAsync();
-            var nowUtc = DateTime.UtcNow;
+            var now = DateTime.Now;
 
             // Index: FieldId -> SensorType -> lista de readings (janela inteira)
             var readingsByField = readings
@@ -41,7 +43,7 @@ namespace AgroSolutions.Properties.Application.Services
 
                 var fieldKey = field.Id.ToString();
 
-                if (!readingsByField.TryGetValue(fieldKey, out var bySensor))
+                if (!readingsByField.TryGetValue(fieldKey.ToUpper(), out var bySensor))
                     continue;
 
                 // Ajuste os nomes para bater com o que vem do Influx
@@ -59,12 +61,12 @@ namespace AgroSolutions.Properties.Application.Services
                 
                 var activeAlerts = field.Alerts.Where(x => x.Active).ToList();
 
-                if (!droughtTriggered)
+                if (!droughtTriggered && activeAlerts.Any())
                 {
                     foreach (var a in activeAlerts.Where(a => a.Type == AlertType.Drought))
                     {
                         a.Active = false;
-                        a.EndDate = nowUtc;
+                        a.EndDate = now;
                     }
                 }
 
@@ -74,17 +76,19 @@ namespace AgroSolutions.Properties.Application.Services
 
                     if (!hasActive)
                     {
-                        field.Alerts.Add(new Alert
+                        var alert = new Alert
                         {
                             Id = Guid.NewGuid(),
                             FieldId = field.Id,
                             Field = field, // opcional (se EF já trackeia)
                             SensorType = "Moist",
                             Type = AlertType.Drought,
-                            StartDate = nowUtc,
+                            StartDate = now,
                             EndDate = null,
                             Active = true
-                        });
+                        };
+
+                        await _alertRepo.Add(alert);
                     }
                 }
               

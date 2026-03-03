@@ -33,7 +33,11 @@ namespace AgroSolutions.Properties.Data.Repositories
         }
 
         public Task<List<Field>> GetAllAsync()
-            => ctx.Fields.ToListAsync();
+            => ctx
+            .Fields
+            .Include(x=> x.Culture)
+            .Include(x=> x.Alerts.Where(x=> x.Active))
+            .ToListAsync();
 
         public Task<Field?> GetByIdAsync(Guid id)
             => ctx.Fields

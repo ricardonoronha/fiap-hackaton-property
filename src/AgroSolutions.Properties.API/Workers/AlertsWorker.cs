@@ -47,7 +47,7 @@ namespace AgroSolutions.AlertsProcessor.Workers
                 _logger.LogInformation("Starting job. FieldIds={Count}, Lookback={Lookback}s",
                     fieldIds.Count, lookbackInSeconds);
 
-                var readings = await _readingsRepo.FetchReadingsAsync(fieldIds, _job.LookbackInSeconds, ct);
+                var readings = await _readingsRepo.FetchReadingsAsync(fieldIds, _jobOptions.LookbackInSeconds, ct);
 
                 await _svc.UpdateAlertsByReadings(readings);
 
@@ -56,7 +56,7 @@ namespace AgroSolutions.AlertsProcessor.Workers
             catch (OperationCanceledException) when (ct.IsCancellationRequested)
             {
                 _logger.LogWarning("Job cancelled.");
-                
+
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace AgroSolutions.AlertsProcessor.Workers
                 {
                     await Process(ct);
                     // Espera o intervalo OU cancela se o token for disparado
-                    await Task.Delay( _jobOptions.LookbackInSeconds * 1000, ct);
+                    await Task.Delay(_jobOptions.LookbackInSeconds * 1000, ct);
                 }
 
                 _logger.LogInformation("Worker stopping gracefully.");

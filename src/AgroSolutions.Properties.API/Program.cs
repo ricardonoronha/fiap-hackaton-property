@@ -75,6 +75,8 @@ builder
 builder
     .Services.AddScoped<IGenerateAlertService, GenerateAlertService>();
 
+builder.Services.AddScoped<IAlertRepository, AlertRepository>();
+
 
 // Infra + App
 builder.Services.AddScoped<IReadingsRepository, InfluxReadingsRepository>();
